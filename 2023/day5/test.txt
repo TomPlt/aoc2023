@@ -1,0 +1,40 @@
+import numpy as np 
+
+with open("data.txt") as f: 
+    data = f.read().split("\n\n")
+
+seeds_p1 = data[0].split(":")[1].strip().split(" ")
+maps = [i.split("\n")[1:]for i in data[1:]]
+
+def look_up(seed, depth): 
+    look_up_map = maps[depth]
+    for rule in look_up_map: 
+        rule = [int(i) for i in rule.split()]
+        seed = int(seed)
+        if seed in range(rule[1], rule[1] + rule[2]):
+            return rule[0] + int(seed) - rule[1]
+    return seed
+
+for i in range(len(seeds_p1)//2):
+    print(i)
+    start, range_seeds = ([int(i) for i in seeds_p1[0+2*i:1+2*i+1]])
+    print('here')
+    seeds_p2 = np.arange(start, start+range_seeds)
+    final_seeds_p2 = []
+    for seed in seeds_p2:
+        for depth in range(len(maps)):
+            new_seed = seed
+            seed = look_up(new_seed, depth)
+        final_seeds_p2.append(seed)
+
+
+final_seeds_p1 = []
+for seed in seeds_p1:
+    for depth in range(len(maps)):
+        new_seed = seed
+        seed = look_up(new_seed, depth)
+    final_seeds_p1.append(seed)
+
+
+print(min(final_seeds_p1), min(final_seeds_p2))
+
