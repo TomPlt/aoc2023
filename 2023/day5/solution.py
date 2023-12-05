@@ -2,7 +2,6 @@ from functools import reduce
 seeds, *maps = open('data.txt').read().split('\n\n')
 seeds = [int(i) for i in seeds.split()[1:]]
 maps = [[[int(i) for i in line.split()] for line in m.splitlines()[1:]] for m in maps]
-# part 1
 def map_seed(s, m):
     for md, ms, ml in m:
         if s >= ms and s < ms + ml:
@@ -10,7 +9,6 @@ def map_seed(s, m):
     return s
 print(min(reduce(map_seed, maps, s) for s in seeds))
 
-# part 2
 ranges = list(zip(seeds[::2], seeds[1::2]))
 for m in maps:
     new_ranges = []
